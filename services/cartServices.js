@@ -1,16 +1,21 @@
 const Users = require("../models/Users");
 module.exports = {
-  createUser: async (req, res, next) => {
-    const users = new Users();
-    users.name = "dong";
-    users.email = "dasdsadsad";
-    var promise = users.save();
-    promise.then((result) => {
-      console.log(result);
-      res.json(result);
-    });
-    promise.catch((err) => {
-      res.json(err);
-    });
+  setSession: (req, res, next) => {
+    req.session.cart = [
+      {
+        productId: "1",
+        size: "S",
+        color: "Blue",
+        quantity: 3,
+      },
+    ];
+    return res.status(201).json({ status: "create cart successful" });
+  },
+  getSession: (req, res, next) => {
+    if (req.session.cart) {
+      return res.status(200).json(req.session.cart);
+    } else {
+      return res.status(400).json({ message: "cart is empty" });
+    }
   },
 };

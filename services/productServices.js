@@ -12,34 +12,28 @@ module.exports = {
       query.sort({ _id: -1 });
       await query.exec((err, result) => {
         if (err) {
-          res.status = 500;
-          res.json(null);
+          return res.status(200).json(null);
+        } else {
+          return res.status(200).json(result);
         }
-        res.status = 200;
-        res.json(result);
       });
     } catch (error) {
-      res.status = 500;
-      res.json(error);
+      return res.status(500).json(error);
     }
   },
   getDetailProduct: async (req, res, next) => {
     if (req.params.id != null) {
       await products.findById(req.params.id, (err, result) => {
         if (err) {
-          res.status(500);
-          res.json(null);
+          return res.status(500).json(null);
         }
         if (result != undefined) {
-          res.status(200);
-          res.json(result);
+          return res.status(200).json(result);
         } else {
-          res.status(404);
-          res.json(null);
+          return res.status(404).json(null);
         }
       });
     }
-    res.status(404);
-    res.json(null);
+    return res.status(404).json(null);
   },
 };
