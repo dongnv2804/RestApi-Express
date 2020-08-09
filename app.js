@@ -18,9 +18,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+//session
+const session = require("express-session");
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: "somesecret",
+    cookie: { maxAge: 60000 },
+  })
+);
 // connect mongodb
 // 'mongodb://localhost:27017/tingmetest'
-var urlPath = "mongodb://localhost:27017/shop";
+const urlPath = "mongodb://localhost:27017/shop";
 mongoose.connect(
   process.env.MONGO_URL || urlPath,
   {
