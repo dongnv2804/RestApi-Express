@@ -7,7 +7,7 @@ module.exports = {
         query.find({ name: { $regex: req.body.name, $options: "i" } });
       }
       if (req.body.color != null) {
-        query.find({ color: { $regex: req.body.colorf, $options: "i" } });
+        query.find({ color: { $regex: req.body.color, $options: "i" } });
       }
       query.sort({ _id: -1 });
       await query.exec((err, result) => {

@@ -1,5 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  form(action="/cart/addtocart",method="post")
+    input(type="text",name="id")
+    input(type="text",name="size")
+    input(type="text",name="color")
+    input(type="text",name="quantity")
+    button(type="submit") Submit
+
