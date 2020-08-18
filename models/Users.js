@@ -1,4 +1,5 @@
 const mongosse = require("mongoose");
+const { db } = require("./Products");
 const Schema = mongosse.Schema;
 const UserSchema = new Schema({
   name: String,
