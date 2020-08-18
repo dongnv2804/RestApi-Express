@@ -71,7 +71,7 @@ module.exports = {
           "CUENACU8899-2.jpg",
           "CUENACU8899-3.jpg",
         ],
-        details: [{ color: "Trắng-xanh", size: null, quantity: 10 }],
+        details: [{ color: "Trắng-xanh", size: "44mm", quantity: 10 }],
       },
       {
         name: "Giày Bitis nữ",
@@ -109,35 +109,6 @@ module.exports = {
           { color: "Cam", size: "39", quantity: 20 },
           { color: "Cam", size: "40", quantity: 20 },
         ],
-      },
-      {
-        name: "Túi xách da thời trang nữ",
-        price: 400000,
-        category: "Women",
-        imgpaths: [
-          "tuixachda-den-1.jpg",
-          "tuixachda-den-2.jpg",
-          "tuixachda-den-3.jpg",
-        ],
-        details: [{ color: "Đen", size: null, quantity: 10 }],
-      },
-      {
-        name: "Túi xách thời trang nữ",
-        price: 650000,
-        category: "Women",
-        imgpaths: ["tuixach-hong.jpg", "tuixach-hong.jpg", "tuixach-hong.jpg"],
-        details: [{ color: "Hồng", size: null, quantity: 10 }],
-      },
-      {
-        name: "Túi xách thời trang nữ",
-        price: 780000,
-        category: "Women",
-        imgpaths: [
-          "tuixachnutrangden.jpg",
-          "tuixachnutrangden.jpg",
-          "tuixachnutrangden.jpg",
-        ],
-        details: [{ color: "Trắng-Đen", size: null, quantity: 10 }],
       },
       {
         name: "Dép bitis Dark Knight đen",
@@ -219,34 +190,5 @@ module.exports = {
       });
     }
     return res.status(404).json(null);
-  },
-  getListColorByProductID: async (req, res, next) => {
-    if (req.params.id != null) {
-      let id = req.params.id;
-
-      try {
-        let query = products.aggregate([
-          // { $match: { _id: "" + id + "" } },
-          {
-            $group: {
-              _id: "$details.color",
-              color: { $first: "$details.color" },
-            },
-          },
-        ]);
-        await query.exec((err, result) => {
-          if (err) {
-            console.log(err);
-            return res.status(500).json(null);
-          }
-          return res.status(200).json(result);
-        });
-      } catch (error) {
-        console.log(error);
-        return res.status(500).json(error);
-      }
-    } else {
-      return res.status(404).json(null);
-    }
   },
 };

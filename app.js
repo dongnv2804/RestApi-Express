@@ -56,8 +56,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/product", indexRouter);
-app.use("/cart", cartRouter);
+app.use("/products", indexRouter);
+app.use("/carts", cartRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

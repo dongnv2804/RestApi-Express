@@ -43,6 +43,31 @@ module.exports = {
       return res.status(500).json({ status: error });
     }
   },
+  updateCart: async (req, res, next) => {
+    let { id, size, color, quantity } = req.body;
+    try {
+      let flag = false;
+      let carts =
+        req.signedCookies.carts != undefined ? req.signedCookies.carts : [];
+      await carts.map((value) => {
+        if (value.id == id && value.size == size && value.color == color) {
+          value.quantity = quantity;
+          flag = true;
+        }
+      });
+      if (flag) {
+        res.cookie("carts", carts, {
+          httpOnly: true,
+          signed: true,
+        });
+        return res.status(200).json({ status: "update cart succesfull" });
+      } else {
+        return res.status(404).json(null);
+      }
+    } catch (error) {
+      return res.status(500).json({ status: error });
+    }
+  },
   deleteItem: async (req, res, next) => {
     let body = req.body;
     try {
