@@ -6,6 +6,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 const cartRouter = require("./routes/cartRoutes");
+
 var app = express();
 
 // view engine setup
@@ -15,17 +16,17 @@ app.set("view engine", "jade");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("keymaster"));
 app.use(express.static(path.join(__dirname, "public")));
 
 //session
 const session = require("express-session");
 app.use(
   session({
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-    secret: "somesecret",
-    cookie: { maxAge: 60000 },
+    secret: "keythegioi",
+    cookie: { maxAge: 60000 * 600 },
   })
 );
 // connect mongodb
@@ -42,8 +43,20 @@ mongoose.connect(
     console.log("connected");
   }
 );
+// config to frontend can call api
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  // res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.header("Content-Type", "application/json;charset=UTF-8");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
-app.use("/", indexRouter);
+app.use("/product", indexRouter);
 app.use("/cart", cartRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
